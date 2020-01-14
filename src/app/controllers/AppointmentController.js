@@ -45,7 +45,7 @@ class AppointmentController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' }); // se validacao falhar
+      return res.status(400).json({ error: 'Validation fails!' }); // se validacao falhar
     }
 
     const { provider_id, date } = await req.body;
