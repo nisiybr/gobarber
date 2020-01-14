@@ -1,6 +1,7 @@
 import 'dotenv/config'; // importa variaveis de ambiente, coloca tudo dentro de process.env
 import express from 'express';
 import path from 'path';
+import cors from 'cors'; // permite que outras aplicacoes acessem a API
 import Youch from 'youch';
 import * as Sentry from '@sentry/node';
 import 'express-async-errors';
@@ -23,6 +24,9 @@ class App {
 
   middlewares() {
     this.server.use(Sentry.Handlers.requestHandler());
+    this.server.use(cors()); // configuracao em um ambiente de desenvolvimento
+    // this.server.user(cors({origin: 'https://rocketseat.com.br'}));
+    // Em producao o Cors somente aceitaria chamadas da aplicacao REACT desejada, para as outras bloquearia
     this.server.use(express.json());
     this.server.use(
       '/files',

@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import User from '../models/User';
+import File from '../models/File';
 
 class UserController {
   async store(req, res) {
@@ -64,19 +65,29 @@ class UserController {
       // se informou a senha antiga e se senha nao bate
       return res.status(401).json({ error: 'The old password is invalid' });
     }
-    if (!oldPassword) {
+    /* if (!oldPassword) {
       // se informou a senha antiga e se senha nao bate
       return res
         .status(401)
         .json({ error: 'The old password was not informed' });
-    }
-    const { id, name, provider } = await user.update(req.body);
+    } */
+    await user.update(req.body);
+
+    const { id, name, avatar } = await User.findByPk(req.userId, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'url', 'path'],
+        },
+      ],
+    });
 
     return res.json({
       id,
       name,
       email,
-      provider,
+      avatar,
     });
   }
 }
