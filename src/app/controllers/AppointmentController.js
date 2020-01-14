@@ -61,7 +61,7 @@ class AppointmentController {
     if (!isProvider) {
       return res
         .status(401)
-        .json({ error: 'You can only create appointments with providers' }); // caso nao seja provider
+        .json({ error: 'You can only create appointments with providers!' }); // caso nao seja provider
     }
 
     const isClient = await User.findOne({
